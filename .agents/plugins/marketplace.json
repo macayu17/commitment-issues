@@ -1,0 +1,20 @@
+{
+  "name": "commitment-issues",
+  "interface": {
+    "displayName": "Commitment Issues"
+  },
+  "plugins": [
+    {
+      "name": "commitment-issues",
+      "source": {
+        "source": "local",
+        "path": "./plugins/commitment-issues"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

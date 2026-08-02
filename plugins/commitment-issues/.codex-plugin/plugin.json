@@ -1,0 +1,26 @@
+{
+  "name": "commitment-issues",
+  "version": "0.1.0",
+  "description": "Source-grounded workflows for safe, focused open-source contributions.",
+  "author": {
+    "name": "macayu17",
+    "url": "https://github.com/macayu17"
+  },
+  "homepage": "https://github.com/macayu17/commitment-issues",
+  "repository": "https://github.com/macayu17/commitment-issues",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Commitment Issues",
+    "shortDescription": "Source-grounded open-source contributions",
+    "longDescription": "Find, vet, implement, verify, package, and monitor open-source contributions with live evidence and explicit public-action gates.",
+    "developerName": "macayu17",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Find a viable open-source issue without competing work",
+      "Vibe-check this contribution before I publish it",
+      "Babysit this pull request for checks and reviews"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commitment Issues"
+  short_description: "Source-grounded open-source contributions"
+  default_prompt: "Use $commitment-issues to vet and prepare a safe open-source contribution."
