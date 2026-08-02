@@ -29,7 +29,7 @@ Never let cached or historical state override cheap live verification.
 
 | Command | Route | Mutation |
 | --- | --- | --- |
-| `shop` | Discover up to three recent viable candidates | Read-only |
+| `shop` | Discover recent viable candidates from contributed repositories | Read-only |
 | `vet` | Deeply vet one issue with `scripts/vet_issue.py` | Read-only |
 | `cook` | Re-vet, implement, and test locally | Local files only |
 | `vibe` | Audit diff and checks; `--full` adds the broad suite | Read-only |

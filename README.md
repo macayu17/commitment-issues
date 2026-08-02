@@ -16,7 +16,7 @@ Start a new Codex thread after installation.
 ## Commands
 
 ```text
-/commit:shop [owner|owner/repo] [--since <days>]
+/commit:shop [owner|owner/repo] [--since <days>] [--limit <count>]
 /commit:vet <issue-url|owner/repo#number>
 /commit:cook [issue|pr]
 /commit:vibe [--full]
@@ -36,6 +36,8 @@ Examples:
 /commit:babysit https://github.com/pyenv/pyenv/pull/3498 --once
 /commit:send push --yes
 ```
+
+Bare `/commit:shop` searches public upstream repositories from your 1,000 most recently updated authored pull requests, defaults to issues created within 7 days, and returns at most 3 strict matches. Use `--since` or `--limit` only when you want different bounds.
 
 ## Develop
 

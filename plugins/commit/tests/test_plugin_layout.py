@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 COMMANDS = {
-    "shop": "[owner|owner/repo] [--since <days>]",
+    "shop": "[owner|owner/repo] [--since <days>] [--limit <count>]",
     "vet": "<issue-url|owner/repo#number>",
     "cook": "[issue|pr]",
     "vibe": "[--full]",
@@ -34,7 +34,7 @@ class PluginLayoutTests(unittest.TestCase):
             (ROOT / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8")
         )
         self.assertEqual(manifest["name"], "commit")
-        self.assertEqual(manifest["version"], "0.1.2")
+        self.assertEqual(manifest["version"], "0.1.3")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["author"]["name"], "macayu17")
         self.assertEqual(manifest["interface"]["developerName"], "macayu17")
@@ -99,6 +99,15 @@ class PluginLayoutTests(unittest.TestCase):
             'python "${CLAUDE_PLUGIN_ROOT}/scripts/vet_issue.py" --json $ARGUMENTS',
             text,
         )
+
+    def test_shop_has_short_strict_defaults(self):
+        text = (ROOT / "commands" / "shop.md").read_text(encoding="utf-8")
+        self.assertIn('${CLAUDE_PLUGIN_ROOT}/scripts/find_issues.py', text)
+        self.assertIn("defaults to contributed repositories", text.casefold())
+        self.assertIn("7 days", text)
+        self.assertIn("3 results", text)
+        self.assertIn("maintainer-only comments", text.casefold())
+        self.assertIn("distinctive error or feature wording", text.casefold())
 
     def test_send_it_requires_narrow_confirmation(self):
         text = (ROOT / "commands" / "send.md").read_text(encoding="utf-8")

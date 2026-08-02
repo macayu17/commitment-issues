@@ -51,7 +51,9 @@ def classify_issue(issue: dict[str, Any]) -> dict[str, Any]:
         for label in issue.get("labels", [])
         if isinstance(label, dict)
     }
-    uncertain = labels.intersection({"needs triage", "discussion", "design"})
+    uncertain = labels.intersection(
+        {"needs triage", "needs discussion", "needs design", "discussion", "design"}
+    )
     if uncertain:
         review.append("triage/design label: " + ", ".join(sorted(uncertain)))
 
@@ -106,6 +108,7 @@ def collect_issue(owner: str, repo: str, number: int) -> dict[str, Any]:
     timeline: list[dict[str, Any]] = []
     mentions: list[dict[str, Any]] = []
     comments: list[dict[str, Any]] = []
+    comment_associations: list[str] = []
 
     try:
         view = _gh_json(
@@ -183,14 +186,18 @@ def collect_issue(owner: str, repo: str, number: int) -> dict[str, Any]:
             ]
         )
         raw_comments = flatten_pages(comment_pages)
-        comments = [
+        all_comments = [
             {
                 "author": item.get("user", {}).get("login", ""),
                 "authorAssociation": item.get("author_association", ""),
                 "createdAt": item.get("created_at", ""),
                 "body": item.get("body", ""),
             }
-            for item in (raw_comments or [])[-20:]
+            for item in raw_comments or []
+        ]
+        comments = all_comments[-20:]
+        comment_associations = [
+            item.get("authorAssociation", "") for item in all_comments
         ]
     except (RuntimeError, json.JSONDecodeError):
         evidence_complete = False
@@ -218,6 +225,7 @@ def collect_issue(owner: str, repo: str, number: int) -> dict[str, Any]:
         "cross_references": timeline,
         "pr_mentions": mentions,
         "recent_comments": comments,
+        "commentAuthorAssociations": comment_associations,
         "evidence_complete": evidence_complete,
     }
 
