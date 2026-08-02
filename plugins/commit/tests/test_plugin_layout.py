@@ -4,40 +4,27 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REPOSITORY_ROOT = ROOT.parents[1]
 COMMANDS = {
-    "window-shop": "[owner|owner/repo] [--since <days>]",
-    "background-check": "<issue-url|owner/repo#number>",
+    "shop": "[owner|owner/repo] [--since <days>]",
+    "vet": "<issue-url|owner/repo#number>",
     "cook": "[issue|pr]",
-    "vibe-check": "[--full]",
-    "wrap-it-up": "[issue|pr]",
+    "vibe": "[--full]",
+    "wrap": "[issue|pr]",
     "babysit": "<pr-url|owner/repo#number> [--once] [--interval <seconds>]",
-    "send-it": "<commit|push|pr|all> [--yes]",
-    "pulse-check": "[owner|owner/repo]",
+    "send": "<commit|push|pr|all> [--yes]",
+    "pulse": "[owner|owner/repo]",
 }
 READ_ONLY_COMMANDS = {
-    "window-shop": "read-only",
-    "background-check": "read-only",
-    "vibe-check": "make no edits and perform no public action",
-    "wrap-it-up": "do not modify local or remote state",
+    "shop": "read-only",
+    "vet": "read-only",
+    "vibe": "make no edits and perform no public action",
+    "wrap": "do not modify local or remote state",
     "babysit": "never comment, review, rerun checks, merge, or otherwise mutate github",
-    "pulse-check": "read-only",
+    "pulse": "read-only",
 }
 
 
 class PluginLayoutTests(unittest.TestCase):
-    def test_repository_marketplace_points_to_plugin(self):
-        marketplace = json.loads(
-            (REPOSITORY_ROOT / ".agents" / "plugins" / "marketplace.json").read_text(
-                encoding="utf-8"
-            )
-        )
-        self.assertEqual(marketplace["name"], "commitment-issues")
-        self.assertEqual(len(marketplace["plugins"]), 1)
-        entry = marketplace["plugins"][0]
-        self.assertEqual(entry["name"], "commitment-issues")
-        self.assertEqual(entry["source"]["path"], "./plugins/commitment-issues")
-
     def test_command_directory_contains_only_planned_commands(self):
         command_names = {path.name for path in (ROOT / "commands").glob("*.md")}
         self.assertEqual(command_names, {f"{name}.md" for name in COMMANDS})
@@ -46,8 +33,8 @@ class PluginLayoutTests(unittest.TestCase):
         manifest = json.loads(
             (ROOT / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(manifest["name"], "commitment-issues")
-        self.assertEqual(manifest["version"], "0.1.0")
+        self.assertEqual(manifest["name"], "commit")
+        self.assertEqual(manifest["version"], "0.1.1")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["author"]["name"], "macayu17")
         self.assertEqual(manifest["interface"]["developerName"], "macayu17")
@@ -84,8 +71,8 @@ class PluginLayoutTests(unittest.TestCase):
         self.assertIn("--once", text)
         self.assertIn("read-only", text.casefold())
 
-    def test_background_check_uses_plugin_relative_helper(self):
-        text = (ROOT / "commands" / "background-check.md").read_text(encoding="utf-8")
+    def test_vet_uses_plugin_relative_helper(self):
+        text = (ROOT / "commands" / "vet.md").read_text(encoding="utf-8")
         self.assertIn('${CLAUDE_PLUGIN_ROOT}/scripts/vet_issue.py', text)
         self.assertIn(
             'python "${CLAUDE_PLUGIN_ROOT}/scripts/vet_issue.py" --json $ARGUMENTS',
@@ -93,7 +80,7 @@ class PluginLayoutTests(unittest.TestCase):
         )
 
     def test_send_it_requires_narrow_confirmation(self):
-        text = (ROOT / "commands" / "send-it.md").read_text(encoding="utf-8")
+        text = (ROOT / "commands" / "send.md").read_text(encoding="utf-8")
         self.assertIn("--yes", text)
         self.assertIn("preview", text.casefold())
         self.assertIn("never imply", text.casefold())

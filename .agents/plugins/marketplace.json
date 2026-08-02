@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "commitment-issues",
+      "name": "commit",
       "source": {
         "source": "local",
-        "path": "./plugins/commitment-issues"
+        "path": "./plugins/commit"
       },
       "policy": {
         "installation": "AVAILABLE",
