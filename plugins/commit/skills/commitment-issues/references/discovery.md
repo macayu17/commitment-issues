@@ -1,6 +1,6 @@
 # Discovery and issue vetting
 
-Use live, read-only evidence. Default `window-shop` to the current repository or the repository named by the active program rules, a 30-day freshness window, and at most three candidates.
+Use live, read-only evidence. Default `shop` to the current repository or the repository named by the active program rules, a 30-day freshness window, and at most three candidates.
 
 ## Candidate checks
 

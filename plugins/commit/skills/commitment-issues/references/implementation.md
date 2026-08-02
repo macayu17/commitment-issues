@@ -2,6 +2,12 @@
 
 Re-vet the target before editing. Read all repository-local agent instructions and contribution guidance that apply to every file in scope.
 
+## Isolate the work
+
+Read the issue discussion and repository structure before choosing files to change. Inspect the top-level layout, scoped rule files, contribution guide, manifests, CI configuration, production entrypoints, and test organization.
+
+If the repository is not local, clone the issue's repository into a unique issue-specific directory. If a suitable clone already exists, fetch the current upstream default branch and create a clean issue-specific worktree; use a dedicated clone when a worktree is unsafe or unavailable. Never edit in a dirty or shared checkout. Do not stash, clean, reset, switch branches, or overwrite another task's files to create isolation.
+
 ## Trace before changing
 
 1. Locate the runtime or build entrypoint that reaches the reported behavior.
@@ -23,4 +29,6 @@ Re-vet the target before editing. Read all repository-local agent instructions a
 
 For pull-request feedback, read the exact current review thread, confirm the remote head and local branch match, classify the request as actionable or already resolved, then implement only the supported local change. Do not reply publicly from `cook`.
 
-After editing, inspect the whole diff, not only changed hunks. Separate pre-existing failures from regressions with evidence and never weaken a test merely to make it pass.
+After editing, run the focused regression check, the affected package or module suite, and every broader lint, format, type, build, and test command required by repository rules. Do not trade required verification for a deadline. If a required check cannot run or does not pass, keep the task incomplete and report exact evidence; never weaken a test merely to make it pass.
+
+Inspect the whole diff, not only changed hunks. Confirm the code matches maintainer style and contains no AI slop, speculative abstraction, unrelated cleanup, dependency churn, debug residue, or generated noise. Separate pre-existing failures from regressions with evidence.

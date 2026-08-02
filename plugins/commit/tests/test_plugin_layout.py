@@ -34,7 +34,7 @@ class PluginLayoutTests(unittest.TestCase):
             (ROOT / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8")
         )
         self.assertEqual(manifest["name"], "commit")
-        self.assertEqual(manifest["version"], "0.1.1")
+        self.assertEqual(manifest["version"], "0.1.2")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["author"]["name"], "macayu17")
         self.assertEqual(manifest["interface"]["developerName"], "macayu17")
@@ -64,6 +64,27 @@ class PluginLayoutTests(unittest.TestCase):
             "do not commit, push, comment, or open or update a pull request",
             text,
         )
+
+    def test_cook_requires_isolation_repo_study_and_complete_checks(self):
+        command = (ROOT / "commands" / "cook.md").read_text(encoding="utf-8").casefold()
+        implementation = (
+            ROOT
+            / "skills"
+            / "commitment-issues"
+            / "references"
+            / "implementation.md"
+        ).read_text(encoding="utf-8").casefold()
+
+        self.assertIn("clone", command)
+        self.assertIn("isolated worktree or dedicated clone", command)
+        self.assertIn("repository structure", command)
+        self.assertIn("maintainer style", command)
+        self.assertIn("no ai slop", command)
+        self.assertIn("every repository-required check", command)
+        self.assertIn("remain incomplete", command)
+        self.assertIn("never edit in a dirty or shared checkout", implementation)
+        self.assertIn("read the issue discussion and repository structure", implementation)
+        self.assertIn("do not trade required verification for a deadline", implementation)
 
     def test_babysit_is_read_only_and_uses_the_watcher(self):
         text = (ROOT / "commands" / "babysit.md").read_text(encoding="utf-8")

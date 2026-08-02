@@ -29,27 +29,27 @@ Never let cached or historical state override cheap live verification.
 
 | Command | Route | Mutation |
 | --- | --- | --- |
-| `window-shop` | Discover up to three recent viable candidates | Read-only |
-| `background-check` | Deeply vet one issue with `scripts/vet_issue.py` | Read-only |
+| `shop` | Discover up to three recent viable candidates | Read-only |
+| `vet` | Deeply vet one issue with `scripts/vet_issue.py` | Read-only |
 | `cook` | Re-vet, implement, and test locally | Local files only |
-| `vibe-check` | Audit diff and checks; `--full` adds the broad suite | Read-only |
-| `wrap-it-up` | Build the review package and diff fingerprint | Read-only |
+| `vibe` | Audit diff and checks; `--full` adds the broad suite | Read-only |
+| `wrap` | Build the review package and diff fingerprint | Read-only |
 | `babysit` | Snapshot or monitor with `scripts/watch_pr.py` | Read-only |
-| `send-it` | Preview or perform exactly one approved action set | Explicit gate |
-| `pulse-check` | Summarize local and remote state | Read-only |
+| `send` | Preview or perform exactly one approved action set | Explicit gate |
+| `pulse` | Summarize local and remote state | Read-only |
 
 Pass command arguments exactly as received. Do not reinterpret a missing `--yes` as approval.
 
 ## Core workflow
 
-1. Establish the repository, target, current branch, worktree state, and applicable rules.
+1. Establish the repository, target, current branch, worktree state, and applicable rules. For implementation, clone when absent or create a clean issue-specific worktree or dedicated clone from the current upstream base.
 2. Refresh live evidence before recommending or editing. Stop on active competing work, unclear ownership, or repository rules that prohibit the contribution mode.
 3. Trace the real entrypoint through callers and existing helpers before selecting the change point.
 4. Implement the smallest repository-native root-cause fix. Preserve unrelated user changes.
-5. Run the smallest meaningful focused check, then the broader repository check required by local rules or requested scope.
+5. Run the smallest meaningful focused check, then every broader repository check required by local rules. Do not declare completion while a required check is unrun or failing.
 6. Review the actual diff for scope, generated noise, secrets, AI markers, accidental files, and unsupported claims.
 7. Produce a handoff bound to the exact head SHA and SHA-256 fingerprint of the current diff.
-8. Leave all public actions unperformed unless `send-it` receives a matching narrow action plus `--yes`.
+8. Leave all public actions unperformed unless `send` receives a matching narrow action plus `--yes`.
 
 ## Public-action gate
 
@@ -74,4 +74,4 @@ Preview is the default. Approval for `commit`, `push`, or `pr` authorizes only t
 
 ## Example
 
-For `owner/repo#123`, read repository rules, run `scripts/vet_issue.py owner/repo#123`, manually settle any incomplete duplicate or claim evidence, trace the affected production path and callers, make the minimal local fix, run focused and required broader checks, then generate a review package with the exact head SHA and diff fingerprint. Stop there unless a later `send-it <action> --yes` matches that package.
+For `owner/repo#123`, read repository rules, run `scripts/vet_issue.py owner/repo#123`, manually settle any incomplete duplicate or claim evidence, create an isolated checkout, trace the affected production path and callers, make the minimal local fix, run focused and required broader checks, then generate a review package with the exact head SHA and diff fingerprint. Stop there unless a later `send <action> --yes` matches that package.

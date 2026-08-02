@@ -8,7 +8,7 @@ Record each exact command, exit status, meaningful count, skipped or failing cas
 
 ## Review package
 
-`wrap-it-up` is read-only and includes:
+`wrap` is read-only and includes:
 
 - issue or review-feedback target and repository rules consulted;
 - current branch, base, exact full head SHA, and worktree status;
@@ -26,7 +26,7 @@ Run `scripts/watch_pr.py <pr> --once` for one current snapshot. Without `--once`
 
 ## Narrow authorization
 
-`send-it` accepts `commit`, `push`, `pr`, or `all`. Without `--yes`, show a preview only. With `--yes`, verify the selected action, target repository and branch, exact head, current diff fingerprint, review package, and absence of unrelated changes immediately before acting.
+`send` accepts `commit`, `push`, `pr`, or `all`. Without `--yes`, show a preview only. With `--yes`, verify the selected action, target repository and branch, exact head, current diff fingerprint, review package, and absence of unrelated changes immediately before acting.
 
 - `commit --yes` creates only the reviewed local commit.
 - `push --yes` pushes only the named, reviewed branch and does not commit first.
